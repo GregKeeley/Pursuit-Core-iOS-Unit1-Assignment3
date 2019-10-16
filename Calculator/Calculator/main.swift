@@ -42,25 +42,33 @@ print("Result of subtraction operation is \(resultSubtraction)")
 print("Result of division operation is \(resultDivision)")
 print("Result of multplication operation is \(resultMutliple)")
 
-var repeatCondition = false // Repeat condition
+var repeatCondition = true // Repeat condition
 var userArray = [String]()
-
+var randomOperation = ["+", "-", "/", "*"]
 repeat {
     print("Enter type of calculation (Ex: 3 + 5)")
     
     let userInput = readLine() ?? "1 + 1" // Taking user input
-    userArray = userInput.components(separatedBy: " ") // Separating userInput into an array
-    // print(userArray) Test to ensure the userInput is being separated properly
-    //mathStuffFactory(opString: userArray[1])
-    if userArray.count == 3 {
-        let op1 = Double(userArray[0]) ?? 0.0
-        let op2 = Double(userArray[2]) ?? 0.0
-        let closureOp = mathStuffFactory(opString: userArray[1])
-        let userResult = closureOp(op1,op2)
-        print(userResult)
-    } else {
-     print("Try again")
+    userArray = userInput.components(separatedBy: " ")
+    if userArray[1] == "?" {
+        userArray[1] = randomOperation.randomElement() ?? "+"
+        // Separating userInput into an array
+        if userArray.count == 3 {
+            let op1 = Double(userArray[0]) ?? 0.0
+            let op2 = Double(userArray[2]) ?? 0.0
+            let closureOp = mathStuffFactory(opString: userArray[1])
+            let userResult = closureOp(op1,op2)
+            print(userResult)
+        } else {
+            print("Try again")
+        }
+        print("Would you like to continue calculating?")
+        let contPrompt = readLine()?.lowercased() ?? "no"
+        if contPrompt == "yes" {
+            continue
+        } else {
+            repeatCondition = false
+        }
     }
-    
 }
     while repeatCondition
