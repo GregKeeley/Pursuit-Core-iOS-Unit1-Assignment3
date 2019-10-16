@@ -45,14 +45,20 @@ print("Result of multplication operation is \(resultMutliple)")
 var repeatCondition = true // Repeat condition
 var userArray = [String]()
 var randomOperation = ["+", "-", "/", "*"]
+var randomOpUsed = String()
+var randomOpCheck = false
+
 repeat {
     print("Enter type of calculation (Ex: 3 + 5)")
     
     let userInput = readLine() ?? "1 + 1" // Taking user input
     userArray = userInput.components(separatedBy: " ")
-    if userArray[1] == "?" {
+    if userArray.count == 3 && userArray[1] == "?" {
+        print("This used a random operator")
         userArray[1] = randomOperation.randomElement() ?? "+"
-        // Separating userInput into an array
+        randomOpUsed = userArray[1]
+        randomOpCheck = true
+    }
         if userArray.count == 3 {
             let op1 = Double(userArray[0]) ?? 0.0
             let op2 = Double(userArray[2]) ?? 0.0
@@ -62,6 +68,15 @@ repeat {
         } else {
             print("Try again")
         }
+    if randomOpCheck == true {
+        print("Can you guess random operator just used? Choices: *, +, -, /")
+        let userGuess = readLine()
+        if userGuess == randomOpUsed {
+            print("Correct!")
+        } else {
+            print("Nope.")
+        }
+    }
         print("Would you like to continue calculating?")
         let contPrompt = readLine()?.lowercased() ?? "no"
         if contPrompt == "yes" {
@@ -70,5 +85,4 @@ repeat {
             repeatCondition = false
         }
     }
-}
     while repeatCondition
