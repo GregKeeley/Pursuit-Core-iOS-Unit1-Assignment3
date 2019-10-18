@@ -61,30 +61,37 @@ let randomOperation = ["+", "-", "/", "*"]
 var randomOpUsed = String()
 var randomOpCheck = false
 
+//========== Repeat loop begin ====================================================
 repeat {
     print("Enter type of calculation (Ex: 3 + 5)")
     
-    let userInput = readLine()?.lowercased() ?? "1 + 1" // Taking user input
-    userArray = userInput.components(separatedBy: " ") // Separating into different array indices
+    let userInput = readLine()?.lowercased() ?? "1 + 1"
+    userArray = userInput.components(separatedBy: " ")
     
-//    switch userArray[0] {
-////    case filter:
-////        break
-//    case map:
-//        var mapArr = userArray[1].components(separatedBy: ",")
-//        print("Map has been activated")
-////    case reduce:
-////        break
-//    default:
-//        break
-//    }
-    if userArray[0] == "map" {
-       // var mapDoubles = userArray[1].components(separatedBy: ",")
-        var newMapDoubles = [Double]()
-        for num in userArray[1] {
-            if num.isNumber {
-                newMapDoubles.append(Double(Character(num)))
+    
+    if userArray[0] == "map" && userArray.count == 5 {
+        let stringArr = userArray[1].components(separatedBy: ",")
+        let doubleArr = stringArr.compactMap { Double($0) } // UserInput: map 1,2,3,4,5 by * 4
+        print(doubleArr)
+        //let mapOpA = userArray[3]
+        let mapFactor = Double(userArray[4]) ?? 1
+        var mapResult = [Double]()
+        switch userArray[3] {
+        case "*":
+            mapResult = myMap(num: doubleArr, closure: {$0 * mapFactor})
+        case "/":
+            mapResult = myMap(num: doubleArr, closure: {$0 / mapFactor})
+        case "+":
+            mapResult = myMap(num: doubleArr, closure: {$0 + mapFactor})
+        case "-":
+            mapResult = myMap(num: doubleArr, closure: {$0 - mapFactor})
+        default:
+            print("Does not compute")
+        }
+        print(mapResult)
     }
+    print(userArray[0])
+    print(userArray.count)
     
     
     if userArray.count == 3 && userArray[1] == "?" {
@@ -98,7 +105,12 @@ repeat {
         let op2 = Double(userArray[2]) ?? 0.0
         let closureOp = mathStuffFactory(opString: userArray[1])
         let userResult = closureOp(op1,op2)
-        print(userResult)
+        var opUsed = userArray[1]
+        if randomOpCheck == true {
+            opUsed = "?"
+        }
+        print()
+        print("\(op1) \(opUsed) \(op2) = \(userResult)")
     } else {
         print("Try again")
     }
@@ -116,7 +128,6 @@ repeat {
     let contPrompt = readLine()?.lowercased() ?? "no"
     if contPrompt == "yes" {
         continue
-        
     } else {
         repeatCondition = false
     }
