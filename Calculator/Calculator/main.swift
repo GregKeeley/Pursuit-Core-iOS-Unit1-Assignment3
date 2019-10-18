@@ -8,7 +8,7 @@
 
 import Foundation
 
-func mathStuffFactory(opString: String) -> (Double, Double) -> Double {
+func mathStuffFactory(opString: String) -> (Double, Double) -> Double { // mathInput, closure, return
     switch opString {
     case "+":
         return {x, y in x + y }
@@ -28,17 +28,64 @@ let multiplecationOp = mathStuffFactory(opString: "*")
 let divisionOp = mathStuffFactory(opString: "/")
 let subtractionOp = mathStuffFactory(opString: "-")
 
+//=================================================================================
+// Custom functions
+//=================================================================================
+
+// custom Map
+func myMap(num: [Double], closure: (Double) -> Double) -> [Double] {
+    var numArr = [Double]()
+    for num in numArr {
+        numArr.append(closure(num))
+    }
+    return numArr
+}
+
+
+
+func filter () -> () {
+    
+}
+
+func reduce() -> () {
+    
+}
+
+
+//=================================================================================
+// Repeat loop setup and var/lets
+//=================================================================================
 var repeatCondition = true // Repeat condition
 var userArray = [String]()
-var randomOperation = ["+", "-", "/", "*"]
+let randomOperation = ["+", "-", "/", "*"]
 var randomOpUsed = String()
 var randomOpCheck = false
 
 repeat {
     print("Enter type of calculation (Ex: 3 + 5)")
     
-    let userInput = readLine() ?? "1 + 1" // Taking user input
-    userArray = userInput.components(separatedBy: " ")
+    let userInput = readLine()?.lowercased() ?? "1 + 1" // Taking user input
+    userArray = userInput.components(separatedBy: " ") // Separating into different array indices
+    
+//    switch userArray[0] {
+////    case filter:
+////        break
+//    case map:
+//        var mapArr = userArray[1].components(separatedBy: ",")
+//        print("Map has been activated")
+////    case reduce:
+////        break
+//    default:
+//        break
+//    }
+    if userArray[0] == "map" {
+       // var mapDoubles = userArray[1].components(separatedBy: ",")
+        var newMapDoubles = [Double]()
+        for num in userArray[1] {
+            if num.isNumber {
+                newMapDoubles.append(Double(Character(num)))
+    }
+    
     
     if userArray.count == 3 && userArray[1] == "?" {
         print("This used a random operator")
@@ -75,13 +122,3 @@ repeat {
     }
 }
     while repeatCondition
-
-//func myFilter(inputArray: [Int], filter: (Int) -> Bool) -> [Int] {
-//    let result = [Int]()
-//    var filterNum = filter
-//    for num in inputArray {
-//        if num < filterNum {
-//    }
-//    return result
-//}
-//}
