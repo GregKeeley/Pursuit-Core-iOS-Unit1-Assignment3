@@ -43,12 +43,22 @@ func myMap(num: [Double], closure: (Double) -> Double) -> [Double] {
 
 
 
-func filter () -> () {
-    
+func filter(input: [Double], closure: Double) -> [Double] {
+    var result = [Double]()
+    for num in input {
+        if num > closure {
+            result.append(num)
+        }
+    }
+    return result
 }
 
-func reduce() -> () {
-    
+func reduce(input: [Double]) -> (Double) {
+    var sum = 0.0
+    for num in input {
+        sum += num
+    }
+    return sum
 }
 
 
@@ -63,20 +73,23 @@ var randomOpCheck = false
 
 //========== Repeat loop begin ====================================================
 repeat {
-    print("Enter type of calculation (Ex: 3 + 5)")
+
+    print("type A to enter the regular calculator, or B to enter the Map, Filter, or Reduce functions: ")
+    let initialUserInput = readLine()?.lowercased() ?? "a"
     
-    let userInput = readLine()?.lowercased() ?? "1 + 1"
-    userArray = userInput.components(separatedBy: " ")
-    
-    
-    if userArray[0] == "map" && userArray.count == 5 {
-        let stringArr = userArray[1].components(separatedBy: ",")
+    if initialUserInput == "a" {
+        print("Enter your desired function, followed by the values you would like to perform the function on and operator")
+        let functionInput = readLine()?.lowercased() ?? ""
+        let functionInputArray = functionInput.components(separatedBy: " ")
+        let digitArray = functionInputArray[1].components(separatedBy: ",")
+    if digitArray[0] == "map"  {
+        let stringArr = digitArray[1].components(separatedBy: ",")
         let doubleArr = stringArr.compactMap { Double($0) } // UserInput: map 1,2,3,4,5 by * 4
         print(doubleArr)
         //let mapOpA = userArray[3]
-        let mapFactor = Double(userArray[4]) ?? 1
+        let mapFactor = Double(digitArray[4]) ?? 1
         var mapResult = [Double]()
-        switch userArray[3] {
+        switch digitArray[3] {
         case "*":
             mapResult = myMap(num: doubleArr, closure: {$0 * mapFactor})
         case "/":
@@ -90,9 +103,14 @@ repeat {
         }
         print(mapResult)
     }
-    print(userArray[0])
-    print(userArray.count)
+ //       if initialUserInput[0] == "filter"
+        
+    }
     
+print("Enter type of calculation (Ex: 3 + 5)")
+    
+    let userInput = readLine()?.lowercased() ?? "1 + 1"
+    userArray = userInput.components(separatedBy: " ")
     
     if userArray.count == 3 && userArray[1] == "?" {
         print("This used a random operator")
@@ -100,7 +118,7 @@ repeat {
         randomOpUsed = userArray[1]
         randomOpCheck = true
     }
-    if userArray.count == 3 {
+if userArray.count == 3 {
         let op1 = Double(userArray[0]) ?? 0.0
         let op2 = Double(userArray[2]) ?? 0.0
         let closureOp = mathStuffFactory(opString: userArray[1])
